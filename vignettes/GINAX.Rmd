@@ -37,10 +37,10 @@ The function implemented in `GINAX` is described below:
 
 The model used in the `GINAX` package is
 
-\begin{equation*}
-\textbf{y} \sim F(\cdot|\theta) //
-g(\theta) = X \boldsymbol{\beta} + X_f \boldsymbol{\beta}_f + Z_1 \boldsymbol{\alpha}_1 + \ldots + Z_l \boldsymbol{\alpha}_l
-\end{equation*}
+\begin{aligned}
+\textbf{y} & \sim  F(\cdot|\theta) \\
+g(\theta) & =  X \boldsymbol{\beta} + X_f \boldsymbol{\beta}_f + Z_1 \boldsymbol{\alpha}_1 + \ldots + Z_l \boldsymbol{\alpha}_l
+\end{aligned}
 
 where
 
@@ -93,7 +93,7 @@ The function `GINAX` implements the GINA-X method for generalized linear mixed m
 
 ### GINAX Poisson Example
 
-Here we illustrate the use of `GINAX` with a nominal FDR of 0.05 with Poisson count data. First we specify the covariance matrices for the random effects. The first random effect is assumed to be $\boldsymbol{\alpha}_1 \sim N(0,\kappa_1 K)$, where $K$ is the realized relationship matrix or kinship matrix. The second random effect is assumed to be $\boldsymbol{\alpha}_1 \sim N(0,\kappa_2 I)$, where the covariance matrix is an identity matrix times a scalar. This second random effect is to account for overdispersion in the Poisson model. The `Covariance` argument takes a list of random effect covariance matrices. For this example, the list of covariance matrices is set as:
+Here, we illustrate the use of `GINAX` with Poisson count data. First, we specify the covariance matrices for the random effects. The first random effect is assumed to be $\boldsymbol{\alpha}_1 \sim N(0,\kappa_1 K)$, where $K$ is the realized relationship matrix or kinship matrix. The second random effect is assumed to be $\boldsymbol{\alpha}_1 \sim N(0,\kappa_2 I)$, where the covariance matrix is an identity matrix times a scalar. This second random effect is to account for overdispersion in the Poisson model. The `Covariance` argument takes a list of random effect covariance matrices. For this example, the list of covariance matrices is set as:
 
 ```{r}
 n <- length(Y_poisson)
@@ -109,11 +109,11 @@ output_poisson <- GINAX(Y=Y_poisson, Covariance=covariance, SNPs=SNPs, family="p
 output_poisson
 ```
 
-`GINAX` outputs the column indices of the `SNPs` matrix that are in best model or column indices of SNPs perfectly correlated to SNPs in the best model. The data was generated with causal SNPs at positions 450, 1350, 2250, 3150, 4050, 4950, 5850, 6750, 7650, and 8550. GINAX selects SNPs at positions `r print(output_poisson)`. GINAX selects `r sum(output_poisson %in% c(450, 1350, 2250, 3150, 4050, 4950, 5850, 6750, 7650, 8550))` true causal SNPs.
+`GINAX` outputs the column indices of the `SNPs` matrix that are in best model or column indices of SNPs perfectly correlated to SNPs in the best model. The data was generated with causal SNPs at positions 450, 1350, 2250, 3150, 4050, 4950, 5850, 6750, 7650, and 8550. Thus, GINAX selects 9 true causal SNPs.
 
-### GINAX Example
+### GINAX Binary Example
 
-Here we illustrate the use of `GINAX` with a nominal FDR of 0.05 with binary data. First we specify the covariance matrices for the random effects. The only random effect is assumed to be $\boldsymbol{\alpha} \sim N(0,\kappa_1 K)$, where $K$ is the realized relationship matrix or kinship matrix. For this example, the list of covariance matrices is set as:
+Here, we illustrate the use of `GINAX` with binary data. First, we specify the covariance matrices for the random effects. The only random effect is assumed to be $\boldsymbol{\alpha} \sim N(0,\kappa_1 K)$, where $K$ is the realized relationship matrix or kinship matrix. For this example, the list of covariance matrices is set as:
 
 ```{r}
 covariance <- list()
@@ -127,7 +127,7 @@ output_binary <- GINAX(Y=Y_binary, Covariance=covariance, SNPs = SNPs, family = 
 output_binary
 ```
 
-Similarly to the Poisson example, the data was generated with causal SNPs at positions 450, 1350, 2250, 3150, 4050, 4950, 5850, 6750, 7650,and 8550. GINAX identifies 1 false SNPs and 4 true causal SNPs.
+Similarly to the Poisson example, the data was generated with causal SNPs at positions 450, 1350, 2250, 3150, 4050, 4950, 5850, 6750, 7650,and 8550. GINAX identifies 1 false SNP and 4 true causal SNPs.
 
 
 
